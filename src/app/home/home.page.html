@@ -1,14 +1,65 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="warning">
     <ion-title>
-      Ionic Blank
+      Air Visuals API
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
+
+  <div class="div-card" *ngIf="isLoading" style="margin-top: 20vh; color: gray;">
+    Loading Air Visuals...
   </div>
+  <ion-card>
+    <ion-card-content *ngIf="!isLoading">
+      <div class="div-card">
+        <ion-icon name="happy" [ngStyle]="{'color': getColorByAirQuality() }" slot="start" *ngIf="aqi >= 0 && aqi <=50"
+          class="index-icon"></ion-icon>
+        <ion-icon name="information-circle-outline" [ngStyle]="{'color': getColorByAirQuality() }" slot="start"
+          *ngIf="aqi >= 51 && aqi <=100" class="index-icon"></ion-icon>
+        <ion-icon name="sad" [ngStyle]="{'color': getColorByAirQuality() }" slot="start" *ngIf="aqi >= 101 && aqi <=150"
+          class="index-icon"></ion-icon>
+        <ion-icon name="remove-circle-outline" [ngStyle]="{'color': getColorByAirQuality() }" slot="start"
+          *ngIf="aqi >= 151 && aqi <=200" class="index-icon"></ion-icon>
+        <ion-icon name="close-circle-outline" [ngStyle]="{'color': getColorByAirQuality() }" slot="start"
+          *ngIf="aqi >= 200 && aqi <=300" class="index-icon"></ion-icon>
+        <ion-icon name="nuclear" [ngStyle]="{'color': getColorByAirQuality() }" slot="start" *ngIf="aqi >= 300"
+          class="index-icon"></ion-icon>
+
+      </div>
+      <div class="div-card">
+        <ion-label style="font-size: 20px;">
+          Air Quality is <span
+            [ngStyle]="{ 'color': getColorByAirQuality(), 'font-weight': 'bold' }">{{ getAirQuality() }}</span>
+        </ion-label>
+        <br>
+        <ion-label style="font-size: 14px;">
+          AQI is <span [ngStyle]="{ 'font-weight': 'bold', 'font-size': '16px'}">{{aqi}}</span>
+        </ion-label>
+        <br><br>
+        <ion-label style="font-size: 16px;">
+          {{ getTextByAirQuality() }}
+        </ion-label>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="!isLoading">
+    <ion-card-content>
+      <div>
+        <ion-label>
+          City: {{data.city}}
+        </ion-label><br>
+        <ion-label>
+          State: {{data.state}}
+        </ion-label><br>
+        <ion-label>
+          Country: {{data.country}}
+        </ion-label><br>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
